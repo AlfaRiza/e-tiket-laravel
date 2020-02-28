@@ -17,7 +17,7 @@ Route::get('/', function(){
 
 Route::get('/dashboard', 'AdminController@index');
 Route::get('/manageUser', 'AdminController@manage');
-Route::delete('/manageUser', 'AdminController@destroy');
+Route::delete('/manageUser/{id}', 'AdminController@destroy');
 
 Route::get('/event', 'PenyelenggaraController@index');
 Route::get('/addEvent', 'PenyelenggaraController@create');

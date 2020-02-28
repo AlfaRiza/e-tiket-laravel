@@ -57,9 +57,12 @@
       </div>
       <div class="card-body">
         <div class="chart-bar">
-          <canvas id="myBarChart" width="1000" height="280"></canvas>
+          <canvas id="myBarChart" width="1000" height="280">
+            
+          </canvas>
         </div>
         <hr>
         Styling for the bar chart can be found in the <code>/js/demo/chart-bar-demo.js</code> file.
       </div>
+      
 @endsection

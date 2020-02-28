@@ -220,12 +220,14 @@
   //$j = 0;
   //$hasil[] = 0;
   error_reporting(0);
-  if ($jml) {
-    foreach ($jml as $event ) {
-      $ev[] = $event->nama_event;
+  if ($data['jml']) {
+    foreach ($data['jml'] as $event ) {
+      $ev[] = $event->id;
       $jm[] = $event->kuota;
     }
   }
+  //$ev = $ev->toArray();
+  //dd( json_encode($ev),json_encode($jm) );
       //print_r($jm);
   
 ?>
@@ -238,6 +240,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+  <script src="{{ asset('chart.js/Chart.js') }}"></script>
   <script>
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#858796';
@@ -272,13 +275,13 @@
     var myBarChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: <?php echo json_encode($ev);?>,
+        labels: {{ json_encode($ev) }},
         datasets: [{
           label: "Revenue",
           backgroundColor: "#4e73df",
           hoverBackgroundColor: "#2e59d9",
           borderColor: "#4e73df",
-          data: <?php echo json_encode($jm);?>,
+          data: {{ json_encode($jm) }},
         }],
       },
       options: {
@@ -326,7 +329,7 @@
           }],
         },
         legend: {
-          display: false
+          display: true
         },
         tooltips: {
           titleMarginBottom: 10,

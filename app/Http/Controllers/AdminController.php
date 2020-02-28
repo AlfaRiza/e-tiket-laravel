@@ -8,7 +8,9 @@ use App\User_access_menu;
 use App\User_menu;
 use App\User_sub_menu;
 use App\Event;
+use DB;
 use Auth;
+//use App\Http\Controllers\DB;
 class AdminController extends Controller
 {
     /**
@@ -31,11 +33,17 @@ class AdminController extends Controller
         $jml_p = User::where('role_id','=',2)->count();
         $jml_m = User::where('role_id','=',3)->count();
         $jml_e = Event::all()->count();
-        $jml = Event::where('tgl_mulai','>=',$date)->get()->toArray();
+        $q = \DB::table('Events');
+        if($q->count() > 0){
+            foreach ($q->get()->toArray() as $d) {
+                $jml[] = $d;
+            }
+        }
         //dd($jml);
         $data = [
             'title' => 'Dashboard',
             'role_id' => $role_id,
+            'jml' => $jml,
         ];
         return view('admin.index', ['data' => $data,'subMenu' => $subMenu, 'menu'  => $menu, 'event' => $event, 'jml_p' => $jml_p, 'jml_m' => $jml_m, 'jml_e' => $jml_e ]);
     }
@@ -120,7 +128,7 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        User::delete($id);
+        $user = User::destroy($id);
         return \redirect(url('manageUser'))->with('status','User berhasil dihapus');
     }
 }
