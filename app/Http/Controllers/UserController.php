@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use DB;
 use App\User;
 use App\Event;
+use App\User_role;
 use App\Peserta_event;
 use App\User_access_menu;
 use App\User_menu;
@@ -24,6 +26,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        
     }
 
     
@@ -32,6 +35,8 @@ class UserController extends Controller
         $role_id = Auth::user()->role_id;
         $image = Auth::user()->image;
         $menu = user_menu::join('user_access_menus','user_menus.id','=','user_access_menus.menu_id')->where('user_access_menus.role_id','=',$role_id)->orderBy('user_access_menus.id','ASC')->get()->toArray();
+        // $role = user::join('user_roles','user_roles.id','=','users.role_id')->where('user_roles.id','=',$role_id)->get()->toArray();
+        // dd($role);
         foreach($menu as $m) {
             $menuId = $m['menu_id'];
             $subMenu[] = User_sub_menu::where('is_active','=',1)->where('menu_id','=', $menuId)->get()->toArray();
@@ -41,6 +46,7 @@ class UserController extends Controller
             'title' => 'Home',
             'role_id' => $role_id,
             'image' => $image,
+            // 'role'  => $role,
         ];
         return view('user.index', ['data' => $data,'subMenu' => $subMenu, 'menu'  => $menu,]);
     }
