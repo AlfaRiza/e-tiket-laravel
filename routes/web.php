@@ -10,11 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
+Auth::routes(['verify' => true]);
+// Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/', function(){
     return view('auth.login');
 });
-
+Route::middleware(['auth','verified'])->group(function () {
 Route::get('/dashboard', 'AdminController@index');
 Route::get('/manageUser', 'AdminController@manage');
 Route::delete('/manageUser/{id}', 'AdminController@destroy');
@@ -34,7 +36,5 @@ Route::get('/detailMyEvent/{id}', 'UserController@detail');
 Route::get('/allEvent', 'UserController@allEvent');
 Route::get('/detailAllEvent/{id}', 'UserController@show');
 Route::get('/Ikuti/{id}', 'UserController@Ikuti');
-
-Auth::routes();
-
 Route::get('/user', 'UserController@index')->name('user');
+});

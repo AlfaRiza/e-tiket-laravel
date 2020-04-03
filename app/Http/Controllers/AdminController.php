@@ -13,6 +13,10 @@ use Auth;
 //use App\Http\Controllers\DB;
 class AdminController extends Controller
 {
+    function __construct() { 
+        $this->middleware('preventBackHistory'); 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      *

@@ -11,6 +11,11 @@ use App\Event;
 use Auth;
 class PenyelenggaraController extends Controller
 {
+
+    function __construct() { 
+        $this->middleware('preventBackHistory'); 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      *
